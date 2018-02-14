@@ -8,4 +8,4 @@ By considering the terms in the Fibonacci sequence whose values do not exceed fo
 
 Answer: 4613732
 
-To find my coded solutions see: _fib.*_
+To find my coded solutions see: __fibSeq.*__
