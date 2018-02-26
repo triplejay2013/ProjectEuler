@@ -1,3 +1,5 @@
+//http://www.mathblog.dk/project-euler-17-letters-in-the-numbers-1-1000/
+//see that website for an explanation or comparison
 #include <iostream>
 #include "NumberConverter.hpp"
 
@@ -9,7 +11,7 @@ int main(){
 	while(true){
 		printf("\n1 for single; 2 for range; 0 to quit: ");
 		cin >> choice;
-		if(choice != 1 || choice != 2) break;
+		if(choice <= 0) break;
 		cout << endl;
 		if(choice == 1){
 			while(true){

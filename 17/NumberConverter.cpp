@@ -40,6 +40,7 @@ int NumberConverter::toInt(const string& str) const {
 
 //single digit numbers 0-9
 string NumberConverter::displayOnes(const int& num){
+	if(num == 0) return "";
 	string str=to_string(num);
 	if(str.length()!=1) return str;
 	return m_numbers[num]; 
@@ -47,6 +48,7 @@ string NumberConverter::displayOnes(const int& num){
 
 //double digit number 10-99
 string NumberConverter::displayTens(const int& num){
+	if(num==0)return "";
 	string str=to_string(num);
 	string temp0, temp1;
 	int tens, ones;
@@ -77,7 +79,9 @@ string NumberConverter::displayTens(const int& num){
 	return str;
 }
 
+//triple digit numbers 100-999
 string NumberConverter::displayHundreds(const int& num){
+	if(num==0)return "";
 	string str=to_string(num);
 	string temp0, temp1, temp2;
 	int hundreds, tens, ones;
@@ -87,10 +91,20 @@ string NumberConverter::displayHundreds(const int& num){
 		temp0=str[0]; temp1=str[1]; temp2=str[2];
 		hundreds=toInt(temp0); tens=toInt(temp1); ones=toInt(temp2);
 		tens *= 10; 
-		if(hundreds==0) return displayTens(tens + ones);
-		if(ones==0) return m_numbers[hundreds] + " Hundred";
-		if(tens==0) return m_numbers[hundreds] + " Hundred and " + displayOnes(ones);
-		return m_numbers[hundreds] + " Hundred and " + displayTens(tens + ones);
+		switch(hundreds){
+			case 0: return displayTens(tens + ones);
+			default:
+				switch(tens){
+					case 0: 
+						if(ones==0) return m_numbers[hundreds] + " Hundred " + displayOnes(ones);
+						return m_numbers[hundreds] + " Hundred and " + displayOnes(ones);
+					default:
+						switch(ones){
+							case 0: return m_numbers[hundreds] + " Hundred and " + displayTens(tens);;
+							default: return m_numbers[hundreds] + " Hundred and " + displayTens(tens + ones);
+						}
+				}
+		}
 	}
 	//str.length() >= 4
 	return str;
@@ -98,6 +112,7 @@ string NumberConverter::displayHundreds(const int& num){
 
 string NumberConverter::displayThousands(const int& num){
 	string str=to_string(num);
+	if(num==0)return str;
 	string temp0, temp1, temp2, temp3;
 	int thousands, hundreds, tens, ones;
 	if(str.length() == 1) return displayOnes(num);
@@ -109,8 +124,17 @@ string NumberConverter::displayThousands(const int& num){
 		hundreds *= 100;
 		tens *= 10;
 		if(thousands==0) return displayHundreds(hundreds + tens + ones);
-		if(hundreds==0) return m_numbers[thousands] + " Thousand " + displayTens(tens + ones);
-		if(tens==0) return m_numbers[thousands] + " Thousand " + displayHundreds(hundreds) + " " + displayOnes(ones);
+		switch(hundreds){
+			case 0: return m_numbers[thousands] + " Thousand " + displayTens(tens + ones);
+			default: 
+				switch(tens){
+					case 0: return m_numbers[thousands] + " Thousand " + displayHundreds(hundreds) + " " + displayOnes(ones);
+					default:
+						switch(ones){
+							case 0:return m_numbers[thousands] + " Thousand " + displayHundreds(hundreds) + displayTens(tens);
+						}
+				}
+		}
 		return m_numbers[thousands] + " Thousand " + displayHundreds(hundreds + tens + ones);
 	}
 	//str.length() >= 5
