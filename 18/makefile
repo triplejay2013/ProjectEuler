@@ -1,4 +1,4 @@
-OBJS = main.cpp
+OBJS = main.cpp tree.cpp Node.hpp
 CC = g++
 CFLAGS = -std=c++11
 
