@@ -1,4 +1,4 @@
-OBJS = main.cpp
+OBJS = pyramid.cpp
 CC = g++
 CFLAGS = -std=c++11
 
