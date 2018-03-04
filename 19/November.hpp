@@ -6,7 +6,7 @@
 class November : public Month {
 public:
 	November(bool duringLeapYear = false)
-	:	Month(duringLeapYear, 2)
+	:	Month(duringLeapYear, 2, 11)
 	{
 		//empty
 	}

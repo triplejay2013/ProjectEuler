@@ -24,6 +24,20 @@ public:
 		calculateYearCode();
 	}
 
+	//Copy Constructor
+	Year(const Year& rhs){
+		_yearCode = rhs._yearCode;
+		_year = rhs._year;
+		_leapYear = rhs._leapYear;
+	}
+
+	//move Constructor
+	Year(Year&& rhs){
+		_yearCode = rhs._yearCode;
+		_year = rhs._year;
+		_leapYear = rhs._leapYear;
+	}
+
 	//getters and setters
 	bool getLeapYear() const{
 		return _leapYear;
@@ -31,6 +45,10 @@ public:
 
 	int getYear() const{
 		return _year;
+	}
+
+	int getCode() const {
+		return _yearCode;
 	}
 
 	//class methods
@@ -51,6 +69,22 @@ public:
 			if(x < 0) x+=7;
 			_yearCode = x;
 		}
+	}
+
+	//Overloaded move assignment operator
+	Year& operator=(Year&& rhs){
+		_yearCode = rhs._yearCode;
+		_year = rhs._year;
+		_leapYear = rhs._leapYear;
+		return *this;
+	}
+
+	//Overloaded assignment operator
+	Year& operator=(const Year& rhs){
+		_yearCode = rhs._yearCode;
+		_year = rhs._year;
+		_leapYear = rhs._leapYear;
+		return *this;
 	}
 
 private:

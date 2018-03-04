@@ -3,39 +3,56 @@
 
 class Month {
 public:
-	Month(bool duringLeapYear = false, int monthCode = 1)
-	: _duringLeapYear(duringLeapYear), _monthCode(monthCode)
+	//default constructor
+	Month(bool duringLeapYear = false, int monthCode = 1, int month = 1)
+	: _duringLeapYear(duringLeapYear), _monthCode(monthCode), _month(month)
 	{
-		if(duringLeapYear) _monthCode -=1;
+		if(_duringLeapYear) _monthCode -=1;
 	}
 
-	Month(int month){
-	/*
-		switch(month){
-			case 1: _month  = new January();
-			case 2: _month = new February();
-			case 3: _month = new March();
-			case 4: _month = new April();
-			case 5:	_month = new May();
-			case 6: _month = new June();
-			case 7: _month = new July();
-			case 8: _month = new August();
-			case 9: _month = new September();
-			case 10: _month = new October();
-			case 11: _month = new November();
-			case 12: _month = new December();
-		}
-		*/
+	//Copy Constructor
+	Month(const Month& rhs){
+		_monthCode = rhs._monthCode;
+		_month = rhs._month;
+		_duringLeapYear = rhs._duringLeapYear;
 	}
 
-	int getCode(){
+	//move Constructor
+	Month(Month&& rhs){
+		_monthCode = rhs._monthCode;
+		_month = rhs._month;
+		_duringLeapYear = rhs._duringLeapYear;
+	}
+
+	int getCode() const {
 		return _monthCode;
 	}
 
+	int getMonth() const {
+		return _month;
+	}
+
+	//Overloaded move assignment operator
+	Month& operator=(Month&& rhs){
+		_monthCode = rhs._monthCode;
+		_month = rhs._month;
+		_duringLeapYear = rhs._duringLeapYear;
+		return *this;
+	}
+
+	//Overloaded assignment operator
+	Month& operator=(const Month& rhs){
+		_monthCode = rhs._monthCode;
+		_month = rhs._month;
+		_duringLeapYear = rhs._duringLeapYear;
+		return *this;
+	}
+
 private:
-	Month* _month;
 	int _monthCode;
+	int _month;
 	bool _duringLeapYear;
+
 };
 
 #endif
