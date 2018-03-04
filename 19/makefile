@@ -1,9 +1,10 @@
 OBJS = *.cpp *.hpp
 CC = g++
 CFLAGS = -std=c++11
+DEBUG = -g
 
 RUN: $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o RUN
+	$(CC) $(DEBUG) $(CFLAGS) $(OBJS) -o RUN
 
 clean:
 	rm ./RUN; ls

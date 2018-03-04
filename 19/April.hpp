@@ -5,6 +5,11 @@
 
 class April : public Month {
 public:
+	April(bool duringLeapYear = false)
+	:	Month(duringLeapYear, 5)
+	{
+		//empty
+	}
 private:
 };
 
