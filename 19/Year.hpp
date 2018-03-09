@@ -15,6 +15,12 @@ public:
 		_year = year;
 		calculateCode();
 		isLeapYear();
+		if(year < 2000 && year >= 1900){
+			_yearCode += 1;
+		}
+		else if(year < 1900 && year >= 1800){
+			_yearCode += 3;
+		}
 	}
 
 	int getCode(){

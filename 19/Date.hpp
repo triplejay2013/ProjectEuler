@@ -15,14 +15,20 @@ public:
 
 	Date(const int& month, const int& day, const int& year){
 		_month = Month(month);
-		_day = Day(day);
+		if(day > _month.getNumDays()) _day = Day(-1);
+		else _day = Day(day);
 		_year = Year(year);
+		if(_year.getLeapYear()) _month.leapYearFix();
 		calculateCode();
 		_day.setDay(_dateCode);
 	}
 
 	std::string getDayOfWeek(){
 		return _day.getDay();
+	}
+
+	int getDay(){
+		return _day.getIntDay();
 	}
 
 	void display(){

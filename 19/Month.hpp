@@ -11,32 +11,36 @@ enum class MONTH {
 class Month {
 public:
 	Month()
-	: _month(MONTH::JANUARY)
+	: _month(MONTH::JANUARY), _numDays(31)
 	{
 		//empty
 	}
 
 	Month(const int& month){
 		switch(month){
-			case 1: _month = MONTH::JANUARY;break;
-			case 2: _month = MONTH::FEBRUARY;break;
-			case 3: _month = MONTH::MARCH;break;
-			case 4: _month = MONTH::APRIL;break;
-			case 5: _month = MONTH::MAY;break;
-			case 6: _month = MONTH::JUNE;break;
-			case 7: _month = MONTH::JULY;break;
-			case 8: _month = MONTH::AUGUST;break;
-			case 9: _month = MONTH::SEPTEMBER;break;
-			case 10: _month = MONTH::OCTOBER;break;
-			case 11: _month = MONTH::NOVEMBER;break;
-			case 12: _month = MONTH::DECEMBER;break;
-			default: _month = MONTH::JANUARY;break;
+			case 1: _month = MONTH::JANUARY; _numDays = 31; break;
+			case 2: _month = MONTH::FEBRUARY; _numDays = 28; break;
+			case 3: _month = MONTH::MARCH; _numDays = 31; break;
+			case 4: _month = MONTH::APRIL; _numDays = 30; break;
+			case 5: _month = MONTH::MAY; _numDays = 31; break;
+			case 6: _month = MONTH::JUNE; _numDays = 30; break;
+			case 7: _month = MONTH::JULY; _numDays = 31; break;
+			case 8: _month = MONTH::AUGUST; _numDays = 31; break;
+			case 9: _month = MONTH::SEPTEMBER; _numDays = 30; break;
+			case 10: _month = MONTH::OCTOBER; _numDays = 31; break;
+			case 11: _month = MONTH::NOVEMBER; _numDays = 30; break;
+			case 12: _month = MONTH::DECEMBER; _numDays = 31; break;
+			default: _month = MONTH::JANUARY; _numDays = 31; break;
 		}
 		setMonthCode();
 	}
 
-	int getCode(){
+	int getCode() const{
 		return _monthCode;
+	}
+
+	int getNumDays() const {
+		return _numDays;
 	}
 
 	void setMonthCode(){
@@ -59,8 +63,8 @@ public:
 
 	void leapYearFix(){
 		switch(_month){
-			case MONTH::JANUARY: _monthCode=5;
-			case MONTH::FEBRUARY: _monthCode=1;
+			case MONTH::JANUARY: _monthCode=5; break;
+			case MONTH::FEBRUARY: _monthCode=1; _numDays +=1; break;
 		}
 	}
 
@@ -103,6 +107,7 @@ public:
 private:
 	MONTH _month;
 	int _monthCode;
+	int _numDays;
 };
 
 #endif
