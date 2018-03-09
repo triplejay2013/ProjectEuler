@@ -3,71 +3,60 @@
 
 #include <string>
 
+enum class DAY {
+	MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
+};
+
 class Day {
 public:
-	Day(){
-		_dayCode = 1;
-		dayOfWeek = "Monday";
-	}
-	
-	Day(int day){
-		_dayCode = day;
+	Day()
+	: _date(1), _day(DAY::MONDAY)
+	{
+
 	}
 
-	//Copy Constructor
-	Day(const Day& rhs){
-		_dayCode = rhs._dayCode;
-		dayOfWeek = rhs.dayOfWeek;
+	Day(const int& date)
+	: _date(date), _day(DAY::MONDAY)
+	{
+
 	}
 
-	//move Constructor
-	Day(Day&& rhs){
-		_dayCode = rhs._dayCode;
-		dayOfWeek = rhs.dayOfWeek;
+	int getCode(){
+		return _date;
 	}
 
-	int getCode() const {
-		return _dayCode;
+	std::string getDay(){
+		switch(_day){
+			case DAY::MONDAY: return "Monday";
+			case DAY::TUESDAY: return "Tuesday";
+			case DAY::WEDNESDAY: return "Wednesday";
+			case DAY::THURSDAY: return "Thursday";
+			case DAY::FRIDAY: return "Friday";
+			case DAY::SATURDAY: return "Saturday";
+			case DAY::SUNDAY: return "Sunday";
+		}
+		return "NONE";
 	}
 
-	std::string getDayOfWeek(){ 
-		return dayOfWeek;
+	int getIntDay(){
+		return _date;
 	}
 
-	void setDayOfWeek(int day){
+	void setDay(const int& day){
 		switch(day){
-			case 0: dayOfWeek = "Sunday"; break;
-			case 1: dayOfWeek = "Monday"; break;
-			case 2: dayOfWeek = "Tuesday"; break;
-			case 3: dayOfWeek = "Wednesday"; break;
-			case 4: dayOfWeek = "Thursday"; break;
-			case 5: dayOfWeek = "Friday"; break;
-			case 6: dayOfWeek = "Saturday"; break;
-			default: dayOfWeek = "Monday"; break;
+			case 1: _day = DAY::MONDAY; break;
+			case 2: _day = DAY::TUESDAY; break;
+			case 3: _day = DAY::WEDNESDAY; break;
+			case 4: _day = DAY::THURSDAY; break;
+			case 5: _day = DAY::FRIDAY; break;
+			case 6: _day = DAY::SATURDAY; break;
+			case 7: _day = DAY::SUNDAY; break;
+			default: _day = DAY::SUNDAY; break;
 		}
 	}
-
-	int getDay() const {
-		return _dayCode;
-	}
-
-	//Overloaded move assignment operator
-	Day& operator=(Day&& rhs){
-		_dayCode = rhs._dayCode;
-		dayOfWeek = rhs.dayOfWeek;
-		return *this;
-	}
-
-	//Overloaded assignment operator
-	Day& operator=(const Day& rhs){
-		_dayCode = rhs._dayCode;
-		dayOfWeek = rhs.dayOfWeek;
-		return *this;
-	}
-
 private:
-	int _dayCode;
-	std::string dayOfWeek;
+	int _date;
+	DAY _day;
 };
 
 #endif

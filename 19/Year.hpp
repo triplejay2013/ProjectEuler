@@ -5,94 +5,57 @@
 
 class Year {
 public:
-	//Constructors & Deconstructors
 	Year()
-	: _leapYear(false), _year(2000)
+	: _year(2001), _yearCode(1)
 	{
-		calculateYearCode();
+		calculateCode();
 	}
 
-	Year(int year){
-		if(year%4 == 0 ) _leapYear = true;
+	Year(const int& year){
 		_year = year;
-		calculateYearCode();
+		calculateCode();
+		isLeapYear();
 	}
 
-	Year(std::string year){
-		_year = std::stoi(year);
-		if(_year%4 == 0 ) _leapYear = true;
-		calculateYearCode();
-	}
-
-	//Copy Constructor
-	Year(const Year& rhs){
-		_yearCode = rhs._yearCode;
-		_year = rhs._year;
-		_leapYear = rhs._leapYear;
-	}
-
-	//move Constructor
-	Year(Year&& rhs){
-		_yearCode = rhs._yearCode;
-		_year = rhs._year;
-		_leapYear = rhs._leapYear;
-	}
-
-	//getters and setters
-	bool getLeapYear() const{
-		return _leapYear;
-	}
-
-	int getYear() const{
-		return _year;
-	}
-
-	int getCode() const {
+	int getCode(){
 		return _yearCode;
 	}
 
-	//class methods
-	void calculateYearCode(){
-		int temp = _year;
-		int x;
-		if(_year >= 2000 && _year <= 2099){
-			//strip away 2000 for easier calculation
-			temp-=2000;
-			x = temp;
-			temp/=4;
-			x+= temp;
-			//reduce by increments of seven
-			while(x>=0){
-				x-=7;
-			}
-			//fix if reduced past zero
-			if(x < 0) x+=7;
-			_yearCode = x;
-		}
+	int getIntYear(){
+		return _year;
 	}
 
-	//Overloaded move assignment operator
-	Year& operator=(Year&& rhs){
-		_yearCode = rhs._yearCode;
-		_year = rhs._year;
-		_leapYear = rhs._leapYear;
-		return *this;
-	}
-
-	//Overloaded assignment operator
-	Year& operator=(const Year& rhs){
-		_yearCode = rhs._yearCode;
-		_year = rhs._year;
-		_leapYear = rhs._leapYear;
-		return *this;
+	bool getLeapYear(){
+		return _leapYear;
 	}
 
 private:
-	//flag to determine if the year is a leap year
-	bool _leapYear;
-	//integer representation of the year
+
+	void isLeapYear(){
+		std::string temp = std::to_string(_year);
+		std::string digits = temp.substr(temp.length()-2, 2);
+		int year = std::stoi(digits);
+		if(year%4 == 0) _leapYear = true;
+		else{ _leapYear = false;}
+	}
+
+	void calculateCode(){
+		std::string str = std::to_string(_year);
+		std::string digits = str.substr(str.length()-2, 2);
+		int year = std::stoi(digits);
+		int code = year;
+		int temp = year/4;
+		code += temp;
+		while(code >= 0){
+			code -= 7;
+		}
+		if(code < 0) code += 7;
+		_yearCode = code;
+	}
+
 	int _year;
 	int _yearCode;
+	bool _leapYear;
 };
 
 #endif

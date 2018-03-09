@@ -5,13 +5,12 @@
 using namespace std;
 
 int main(){
-	Date date = Date(11,3,2061);
-	date.display();
-	cout << endl;
-	cout << date.getDayOfWeek() << endl;
-	date = Date(12,3,2061);
-	date.display();
-	cout << endl;
-	cout << date.getDayOfWeek() << endl;
+	for(int i = 2000; i <= 2022; ++i){
+		Date date = Date(3,11,i);
+		date.display();
+		cout << " is a ";
+		cout << date.getDayOfWeek() << endl << endl;
+	}
+
 	return 0;
 }
