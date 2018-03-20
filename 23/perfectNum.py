@@ -46,8 +46,9 @@ def abundant(num):
 var = int(input("enter a number: "))
 
 #DEBUG
-pdb.set_trace()
+#pdb.set_trace()
 
+print("Calculating abundant numbers")
 abun_nums = []
 for i in range(1,var):
   if abundant(i):
@@ -63,21 +64,21 @@ print("\nstart calculating Non-abundant number sums\n")
 
 nums = []
 counter = 0
-for i in range(1,var):
+for i in abun_nums:
   if i % 1000 == 0:
-    counter += 1
-    print(str(counter) + " ")
-  if i in abun_nums:
-    for j in range(1, var):
-      if j in abun_nums:
-        #DEBU
-        pdb.set_trace()
-        nums.append(i+j)
+    print(i)
+  for j in abun_nums:
+    if i + j >= var:
+      break
+    nums.append(i+j)
 
+print("removing duplicates")
 # put into a set, and back to a list to remove duplicates
-list(set(nums))
+nums = list(set(nums))
 #print(abun_nums)
 
+print("creating list of non-abundant nums")
+print(len(nums))
 # create list of non-abundant numbers from list of abundant numbers
 total = []
 for i in range(1, nums[len(nums)-1]):
