@@ -1,3 +1,5 @@
+import pdb
+# of times
 # Non-abundant sums
 # Problem 23 
 # A perfect number is a number for which the sum of its proper divisors is
@@ -21,42 +23,67 @@
 
 def properDivisors(num):
   ret = []
-  for i in range(1, (num//2)+1):
+  for i in range(1, int(num/2)+1):
     if num % i == 0:
       ret.append(i)
   return ret
 
 
 def deficient(num):
+  myList = properDivisors(num)
   total = 0
-  for i in properDivisors(num):
+  for i in myList:
     total += i
   return True if total < num and total != num else False
 
 def abundant(num):
+  myList = properDivisors(num)
   total = 0
-  for i in properDivisors(num):
+  for i in myList:
     total += i
   return True if total > num and total != num else False
 
-var = 28
-print("The Proper Divisors of " + str(var) + " are: " + str(properDivisors(var)))
-print(str(var) + " is deficient? " + str(deficient(var)))
-print(str(var) + " is abundant? " + str(abundant(var)))
+var = int(input("enter a number: "))
 
+#DEBUG
+pdb.set_trace()
 
-total = []
-# t_1 = ab1 + ab2
-# add i to list if i cannot be written as two abundant sums
-# if i and j are not abundant numbers, and i - j == 0, add to list
-for i in range(1,28123): # represents positive integers, which are the sum of abundant_j and abundant_k
-  for j in range(1, (i//2)+1): # represents abundant numbers up to half the total (i)
-    for k in range(1, (i//2)+1): # represents abundant numbers up to half the total (i)
-      if not abundant(j) or not abundant(k):
-        total.append(j+k)
-      elif abundant(j) and abundant(k)
+abun_nums = []
+for i in range(1,var):
+  if abundant(i):
+    abun_nums.append(i)
+#print(abun_nums)
+
+if var < 1000:
+  print("The Proper Divisors of " + str(var) + " are: " + str(properDivisors(var)))
+  print(str(var) + " is deficient? " + str(deficient(var)))
+  print(str(var) + " is abundant? " + str(abundant(var)))
+
+print("\nstart calculating Non-abundant number sums\n")
+
+nums = []
+counter = 0
+for i in range(1,var):
+  if i % 1000 == 0:
+    counter += 1
+    print(str(counter) + " ")
+  if i in abun_nums:
+    for j in range(1, var):
+      if j in abun_nums:
+        #DEBU
+        pdb.set_trace()
+        nums.append(i+j)
 
 # put into a set, and back to a list to remove duplicates
-list(set(total))
+list(set(nums))
+#print(abun_nums)
+
+# create list of non-abundant numbers from list of abundant numbers
+total = []
+for i in range(1, nums[len(nums)-1]):
+  if i not in nums:
+    total.append(i)
+
 #print sum of list
-print("The sum of all non-abundant numbers is " + str(sum(total)))
+#print(total)
+print("The sum of all non-abundant numbers less than " + str(var) + " is " + str(sum(total)))
