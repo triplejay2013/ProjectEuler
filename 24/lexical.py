@@ -98,30 +98,21 @@ def find(index, num):
     return lPn(num)[index-1]
   return "DID NOT FIND"
 
-print(lPn("012"))
-print(lPn("01234"))
+done = False
+while done == False:
+  num = "0123456789"
+  start = int(input("Start (inclusive): "))
+  end = int(input("End (exclusive): "))
+
+  print("List of permutations from index " + str(start) + " to " + str(end-1)
+      + " with the number " + num[0:end])
+
+  for i in range(start,end):
+    print(lPn(num[0:i]))
+
+  response = input("Again? ")
+  if response[0].lower() == "n":
+    done = True
 
 print(find(2,"0123"))
 print(find(1000000, "0123456789"))
-
-"""
-
-# 0###
-# 1###
-# 2###
-# 3###
-def lP4(num):
-  permutations = []
-
-  nextNum = num
-  # four possible variations of num[0]
-  for i in range(0,4):
-    temp = lP3(nextNum[1:])
-    # add the four variations to the six variations of lP3
-    for j in range(0,6):
-      temp[j] = num[i] + temp[j]
-    
-    permutations +=temp
-    nextNum = nextNum[1:] + nextNum[0]
-  return permutations
-  """
