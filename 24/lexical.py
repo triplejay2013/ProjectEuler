@@ -38,10 +38,26 @@
 # ...8####
 # ...9####
 
+# P10
+# 0.....
+# 10!
+# 1.....
+# 2.....
+# 3.....
+# 4.....
+# 5.....
+# 6.....
+# 7.....
+# 8.....
+# 9.....
+
 
 #IDEA
 #create definitions for lexicalPermutation3-10
 # lP4 will call lP3 3 times, and so on
+
+import factorial
+import pdb
 
 def lP3(num):
   permutations = []
@@ -77,26 +93,76 @@ def lPn(num):
     else:
       temp = lPn(nextNum[1:])
     # add the n first number variations to the (n-1)! variations of lP(n-1)
-    for j in range(0, factorial(len(num)-1)):
+    for j in range(0, factorial.factorial(len(num)-1)):
       temp[j] = num[i] + temp[j]
     # add updated sub lists to current
     permutations += temp
     nextNum = nextNum[1:] + nextNum[0]
   return permutations
 
-def factorial(num):
-  ret = 1
-  for i in range(2,num+1):
-    ret *= i
-  return ret
 
-1234
+    # for 0123456789; len(num) = 10
+    # 0(9! ways of the next digits) 0st : 362880 = 9! permutations with 0 starting
+    # 1(9! ways of the next digits) 1st : 362881 - 725760 permutations with 1 starting
+    # 2(9! ways of the next digits) 2nd : 725761 - 1088640 permutations with 2 starting
+    #                                   : in the Project Euler example, the millionth number lies in this range
+    # 3(9! ways of the next digits) 3rd
+    # 4(9! ways of the next digits) 4th
+    # ...
+
+# finds the nth permutation of "num"
+def find(num, n, perm = list(range(0,10))):
+    print("PERM: " + str(perm))
+    ret = ""
+    num = str(num)
+    if len(perm) == 1:
+        val = str(perm[0])
+        perm.pop(0)
+        return val
+    elif n<= 0:
+        val = str(perm[0])
+        perm.pop(0)
+        return val + find(num[1:], 0, perm)
+    # number of ways to keep the first digit, and change the others
+    fact = factorial.factorial(len(num)-1)
+
+    # updated value for fact
+    temp = 0
+
+    # place keeps track of whether 0th, 1st, 2nd, 3rd....
+    place = 0
+    # n = 1000000
+    # place     0           1               2           3
+    # fact = 1-362880, 362881-725760, 725761-1088640, 1088641-...
+    # or   = 8!     ,   2*8!        ,   3*8!        ,   4*8!
+    for i in range(1, len(perm)+1):
+        temp = i * fact
+        if temp >= n:
+            place = i-1
+            break
+    # get the lower bound of that set
+    #pdb.set_trace()
+    temp -= fact
+    # update return
+    print("N: " + str(n))
+    print("TEMP: " + str(temp))
+    print("N-TEMP: " + str(n-temp))
+    print("PLACE: " + str(place))
+    ret += str(perm[place])
+    # remove item from list
+    perm.pop(place)
+    # pass along the rest of the numbers, decrease n for n-1 digits
+    ret += find(num[1:], n - temp, perm)
+    return ret
+
+"""
 # finds the permutation @index
 def find(index, num):
   num = str(num)
-  if index-1 <= factorial(index-1) and index-1 >= 1:
+  if index-1 <= factorial.factorial(index-1) and index-1 >= 1:
     return lPn(num)[index-1]
   return "DID NOT FIND"
+"""
 
 done = False
 while done == False:
@@ -114,5 +180,6 @@ while done == False:
   if response[0].lower() == "n":
     done = True
 
-print(find(2,"0123"))
-print(find(1000000, "0123456789"))
+print(factorial.factorial(int(input("Find Factorial of: "))))
+#print(find("0123", 2))
+print(find("0123456789", 1000000))
