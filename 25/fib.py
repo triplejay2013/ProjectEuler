@@ -23,8 +23,10 @@
 # https://stackoverflow.com/questions/494594/how-to-write-the-fibonacci-sequence
 
 from math import sqrt
+
 def fib(n):
-    return ((1+sqrt(5))**n-(1-sqrt(5))**n)/(2**n*sqrt(5)) 
+    return (((1+sqrt(5))**n)-(1-sqrt(5))**n)/((2**n)*sqrt(5)) 
+
 """
 numbers = [1,1]
 
@@ -49,5 +51,5 @@ def load():
         file.write(str(val)+"\n")
     file.close()
 #print(str(fib(int(input("Insert Number: ")))))
-load()
-print(str(fib(2000)))
+#load()
+print(str(fib(5000)))
