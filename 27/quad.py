@@ -57,31 +57,41 @@ def is_prime(num = 1, limit=100000):
 # form: n^2 + an + b, 
 #   where |a| < 1000 and |b| <= 1000
 def quadraticPrimeEquation():
-    #b = 1601
-    #a = -79
+    # Start the CLOCK
     start = time()
+    # Track the length of primes generated from quadratic equation
     maxlen = 0
+    # Tracks max a coefficient
     maxA = 0
+    # Tracks max b coefficient
     maxB = 0
-    for a in prime_generator(999):
-        for b in prime_generator(1000):
+    
+    # The following for loops consider only prime iterators 
+    for a in range(0,1000):
+        for b in range(0,a):
             primes = []
             for n in range(10000000):
-                res = is_prime((n**2) + a*n + b)
+                # tries the given quadratic equation with values of 0 < n < 10000000
+                res = (n**2) + a*n + b
                 # check for consecutive prime
                 if is_prime(res):
                     primes.append(res)
                 # if the next number is not prime, then we are done finding consecutive primes
                 else:
+                    # print which equation we were considering
                     print("\nEQUATION:\n\tn^2 + " + str(a) + "n + " + str(b))
+                    # Check if any primes were found
                     if len(primes) == 0:
                         print("No primes found")
+                    # if not, print out how many were found
                     else:
                         print("%d primes found from 0 to %d" % (len(primes), len(primes)-1))
                     if len(primes) > maxlen:
                         maxlen = len(primes)
+                        maxA = a
+                        maxB = b
                         input("CURRENT MAXLEN:\n\t" + str(maxlen))
-                        break
+                    break
     print("maxA = %d\tmaxB = %d" % (maxA, maxB))
     print("Product of maxes is: %d" % (maxA*maxB))
     print("Process took $d seconds" % (time() - start))
