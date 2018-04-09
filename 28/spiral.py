@@ -20,8 +20,8 @@
 # all other squares are derived as follows
 # x1 = (2n+1)**2 for n > 0
 # x2 = (x1 - 6n) for n > 0
-# x3 = (x2 - 2n) for n > 0
-# x4 = (x3 - 2n) for n > 0
+# x3 = (x2 + 2n) for n > 0
+# x4 = (x3 + 2n) for n > 0
 #
 # n     1     2     3     4     5     6     7     8     9     10
 # (sum is sum of x1 + x2 + x3 + x4)
@@ -45,12 +45,47 @@
 # ((16*x)**3)/3 + (10*x)**2 + (26*x)/3 + 1
 #
 # a square of width 1001 occurs when n = 500
-# from above equations x1-x4 = width = 1001 = 2n
+# from above equations x1-x4 = width = 1001 = 2n + 1
+#
+# ****note, width will always be odd!****
+#
 # Therefor: 1001/2 = n = 500
 
 def spiralSquare(n):
   return ((16*(n**3))/3) + (10*(n**2)) + ((26*n)/3) + 1
 
+
+# EXAMPLE PRINT
+#
+#   7 8 9 
+#   6 1 2 
+#   5 4 3
+
+# 21  22  23  24  25
+# 20  07  08  09  10
+# 19  06  01  02  11
+# 18  05  04  03  12
+# 17  16  15  14  13
+
+def printSpiral(w):
+  n = (w - 1)/2
+  def x1(n): return ((2*n)+1)**2
+  def x2(n): return x1(n) - 6*n
+  def x3(n): return x2(n) + 2*n
+  def x4(n): return x3(n) + 2*n
+
+  output = str(int(x4(n))) + "  "
+  for i in range(1,w):
+    for j in range(1,w):
+      output += str(int(x4(n) + j)) + "  "
+    output+= "\n" + str(int(x4(n)) - 1) + "  " 
+  print(output)
+
+
 while True:
   n=int(input("Enter Number: "))
   print("Spiral Square of %d is %d" % (n, spiralSquare(n)))
+  w=int(input("Enter Width (must be odd!): "))
+  if w % 2 == 0:
+    w += 1
+  printSpiral(w)
