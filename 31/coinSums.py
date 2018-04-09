@@ -8,19 +8,52 @@
 #   How many different ways can £2 be made using any number of coins?
 from time import *
 
-coins = [1,2,5,10,20,50,100,200]
 
-def prettyPrint():
-  return 0
+# 1 way to break down 2p
+#   1p + 1p
+# 3 ways to break down 5p
+#   2(2p) + 1(1p)
+#   1(2p) + 3(1p)
+#   0(2p) + 5(1p)
+# 9 ways to break down 10p
+#   2(5p)
+#   1(5p) + 2(2p) + 1(1p)
+#   1(5p) + 1(2p) + 3(1p)
+#   0(5p) + 5(2p) + 0(1p)
+#   0(5p) + 4(2p) + 2(1p)
+#   0(5p) + 3(2p) + 4(1p)
+#   0(5p) + 2(2p) + 6(1p)
+#   0(5p) + 1(2p) + 8(1p)
+#   0(5p) + 0(2p) + 10(1p)
+# ways to break down 20p
+#   2(10p) + 0(5p) + 0(2p) + 0(2p)
+#   1(10p) + 2(5p) + 0(2p) + 0(2p)
+
+#   0(10p) + 0(5p) + 0(2p) + 0(2p)
+#   0(10p) + 0(5p) + 0(2p) + 0(2p)
+#   0(10p) + 0(5p) + 0(2p) + 0(2p)
+#   0(10p) + 0(5p) + 0(2p) + 0(2p)
+#   0(10p) + 0(5p) + 0(2p) + 0(2p)
+#   0(10p) + 0(5p) + 0(2p) + 0(2p)
+#   0(10p) + 0(5p) + 0(2p) + 0(2p)
+#   0(10p) + 0(5p) + 0(2p) + 0(2p)
+#   0(10p) + 0(5p) + 0(2p) + 0(2p)
+#   0(10p) + 0(5p) + 0(2p) + 0(2p)
+#   0(10p) + 0(5p) + 0(2p) + 0(2p)
+#   0(10p) + 0(5p) + 0(2p) + 0(2p)
+#   0(10p) + 0(5p) + 0(2p) + 0(2p)
+#   0(10p) + 0(5p) + 0(2p) + 0(2p)
 
 def coinSums(amount):
-  wallet = []
-  total = 0
-  for i in coins:
-    while total < amount:
-    
+  coins = [200,100,50,20,10,5,2,1]
+  i = 0
+  while amount - coins[i] < 0:
+    i += 1
+  # shorten list to remove unnecessary values
+  print(coins)
+  coins = coins[i+1:]
+  print(coins)
 
-  return wallet
 
 while True:
   # start clock
