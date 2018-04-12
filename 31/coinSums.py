@@ -23,167 +23,43 @@ from time import *
 #   2(2p) + 1(1p)
 #   1(2p) + 3(1p)
 #   0(2p) + 5(1p)
-# 5 ways to break down 6p
-#   1(5p) + 1(1p)
-#   3(2p)
-#   2(2p) + 2(1p)
-#   1(2p) + 4(1p)
-#   6(1p)
-# 6 ways to break down 7p
-#   1(5p) + 1(2p)
-#   1(5p) + 2(1p)
-#   3(2p) + 1(1p)
-#   2(2p) + 3(1p)
-#   1(2p) + 5(1p)
-#   7(1p)
-# 7 ways to break down 8p
-#   1(5p) + 1(2p) + 1(1p)
-#   1(5p) + 3(1p)
-#   4(2p)
-#   3(2p) + 2(1p)
-#   2(2p) + 4(1p)
-#   1(2p) + 6(1p)
-#   8(1p)
-# ways to break down 9p
-# 9 ways to break down 10p
-#   2(5p)
-#   1(5p) + 2(2p) + 1(1p)
-#   1(5p) + 1(2p) + 3(1p)
-#   0(5p) + 5(2p) + 0(1p)
-#   0(5p) + 4(2p) + 2(1p)
-#   0(5p) + 3(2p) + 4(1p)
-#   0(5p) + 2(2p) + 6(1p)
-#   0(5p) + 1(2p) + 8(1p)
-#   0(5p) + 0(2p) + 10(1p)
-# 41 ways to break down 20p
-#   1(20p) + 0(10p) + 0(5p) + 0(2p) + 0(1p)
-#           Recurse?
-#   0(20p) + 2(10p) + 0(5p) + 0(2p) + 0(2p)
-#   0(20p) + 1(10p) + 2(5p) + 0(2p) + 0(2p)
-#   0(20p) + 1(10p) + 1(5p) + 2(2p) + 1(2p)
-#   0(20p) + 1(10p) + 1(5p) + 1(2p) + 3(2p)
-#   0(20p) + 1(10p) + 1(5p) + 0(2p) + 5(2p)
-#   0(20p) + 1(10p) + 0(5p) + 5(2p) + 0(2p)
-#   0(20p) + 1(10p) + 0(5p) + 4(2p) + 2(2p)
-#   0(20p) + 1(10p) + 0(5p) + 3(2p) + 4(2p)
-#   0(20p) + 1(10p) + 0(5p) + 2(2p) + 6(2p)
-#   0(20p) + 1(10p) + 0(5p) + 1(2p) + 8(2p)
-#   0(20p) + 1(10p) + 0(5p) + 0(2p) + 10(2p)
-#           Recurse?
-#   0(20p) + 0(10p) + 4(5p) + 0(2p) + 0(2p)
-#   0(20p) + 0(10p) + 3(5p) + 2(2p) + 1(2p)
-#   0(20p) + 0(10p) + 3(5p) + 1(2p) + 3(2p)
-#   0(20p) + 0(10p) + 3(5p) + 0(2p) + 5(2p)
-#   0(20p) + 0(10p) + 2(5p) + 5(2p) + 0(2p)
-#   0(20p) + 0(10p) + 2(5p) + 4(2p) + 2(2p)
-#   0(20p) + 0(10p) + 2(5p) + 3(2p) + 4(2p)
-#   0(20p) + 0(10p) + 2(5p) + 2(2p) + 6(2p)
-#   0(20p) + 0(10p) + 2(5p) + 1(2p) + 8(2p)
-#   0(20p) + 0(10p) + 2(5p) + 0(2p) + 10(2p)
-#   0(20p) + 0(10p) + 1(5p) + 7(2p) + 1(2p)
-#   0(20p) + 0(10p) + 1(5p) + 6(2p) + 3(2p)
-#   0(20p) + 0(10p) + 1(5p) + 5(2p) + 5(2p)
-#   0(20p) + 0(10p) + 1(5p) + 4(2p) + 7(2p)
-#   0(20p) + 0(10p) + 1(5p) + 3(2p) + 9(2p)
-#   0(20p) + 0(10p) + 1(5p) + 2(2p) + 11(2p)
-#   0(20p) + 0(10p) + 1(5p) + 1(2p) + 13(2p)
-#   0(20p) + 0(10p) + 1(5p) + 0(2p) + 15(2p)
-#           Recurse
-#   0(20p) + 0(10p) + 0(5p) + 10(2p) + 0(2p)
-#   0(20p) + 0(10p) + 0(5p) + 9(2p) + 2(2p)
-#   0(20p) + 0(10p) + 0(5p) + 8(2p) + 4(2p)
-#   0(20p) + 0(10p) + 0(5p) + 7(2p) + 6(2p)
-#   0(20p) + 0(10p) + 0(5p) + 6(2p) + 8(2p)
-#   0(20p) + 0(10p) + 0(5p) + 5(2p) + 10(2p)
-#   0(20p) + 0(10p) + 0(5p) + 4(2p) + 12(2p)
-#   0(20p) + 0(10p) + 0(5p) + 3(2p) + 14(2p)
-#   0(20p) + 0(10p) + 0(5p) + 2(2p) + 16(2p)
-#   0(20p) + 0(10p) + 0(5p) + 1(2p) + 18(2p)
-#           Recurse
-#   0(20p) + 0(10p) + 0(5p) + 0(2p) + 20(2p)
-
-# determines the biggest coin needed to break the amount
-# returns a list of coins that can be used to break 'amount'
-def maxCoin(amount, printMax = False):
-    coins = [200,100,50,20,10,5,2,1]
-    temp = []
-    maxCoin = 0
-    for i in coins:
-        if amount >= i:
-            maxCoin = i
-            break
-    if printMax:
-        print(maxCoin) 
-    for i  in coins:
-        if i <= maxCoin:
-            temp.append(i)
-    if printMax:
-        print(temp)
-    return temp
-
-# 2 way to break down 2p
-#   1(2p) + 0(1p)
-#   Recurse?
-#   0(2p) + 2(1p)
 
 
-# 4 ways to break down 5p
-#   1(5p) + 0(2p) + 0(1p)
-#   Recurse?
-#   2(2p) + 1(1p)
-#   1(2p) + 3(1p)
-#   Recurse?
-#   5(1p)
+# With help of math blog....
+# https://www.mathblog.dk/project-euler-31-combinations-english-currency-denominations/
 
-#   start at Max coin, exhaust all options then decrease. Once max coin is less than 0, return
+# determines how many combinations exist to break the amount given
+# amount = coin value to break
+def coinSums(amount):
+    coins = [1,2,5,10,20,50,100,200]
+    combinations = [0] * amount
+    combinations.append(0)
+    combinations[0] = 1
+    for i in range(0, len(coins)):
+        for j in range(coins[i], amount+1):
+            combinations[j] += combinations[j-coins[i]]
+    return combinations[len(combinations)-1]
 
-# cnt = how many of that coin there are
-# coin = the coin value
-def formatCoin(cnt, coin):
-    return ("%d(%dp)" % (cnt, coin))
-
-
-# EXAMPLE
-# amount = 5
-# [5, 2, 1]
-
-# returns list of all possible ways to break amount in this format:
-    # [1(5p), 2(2p) + 1(1p), ...]
-def coinSums(amount, coins, current = 0, ret = []):
-    currentCoin = coins[0]
-    cnt = 0
-    while current < amount:
-        cnt += 1
-        current+=currentCoin
-    if current == amount:
-        # if we have reached the amount then add our current place in the list
-        ret.append(formatCoin(cnt, coins[0]))
-    coinSums(amount, coins[1:0], current, ret)
-    print(ret)
-
-
-# amount is the amount to break
-# coins is a list of all coins elligible to use
-# current tracks the value of coins of a certain combination
-"""
-def coinSums(amount, coins, current = 0):
-    # if we are at 1p, just fill up to the amount
-    if len(coins) == 1:
-        return amount - amount
-    maxVal = coins[0]
-    for i in range(int(amount/maxVal), -1 , -1):
-        print(coins[i])
-    return coinSums(amount, coins[1:])
-    """
-        
+def coinSums_bruteForce(amount):
+    combinations = 0
+    for a in range(amount, -1, -200):
+        for b in range(a, -1, -100):
+            for c in range(b, -1, -50):
+                for d in range(c, -1, -20):
+                    for e in range(d, -1, -10):
+                        for f in range(e, -1, -5):
+                            for g in range(f, -1, -2):
+                                combinations += 1
+    return combinations
         
 while True:
     # start clock
     start = clock()
 
     coin = int(input("Enter value to break: "))
-    coins = maxCoin(coin)
-    print(coinSums(coin, coins))
+    print("\nThere are %d ways to break %d" % (coinSums(coin), coin))
+
+    print("\nBrute Force: There are %d ways to break %d" % (coinSums_bruteForce(coin), coin))
 
     # stop clock
     end = clock()
