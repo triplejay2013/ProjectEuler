@@ -24,20 +24,73 @@ from time import *
 #   1(2p) + 3(1p)
 #   0(2p) + 5(1p)
 
+# [# of combinations to break amount]
+# each index represents the amount to break ie. comb[5] means you are trying to find how many ways to break 5p
 
+# There are 1 ways to break 0
+# 
+# [1]
+# 
+# There are 1 ways to break 1
+# 
+# [1, 1]
+# 
+# There are 2 ways to break 2
+# 
+# [1, 1, 2]
+# 
+# There are 2 ways to break 3
+# 
+# [1, 1, 2, 2]
+# 
+# There are 3 ways to break 4
+# 
+# [1, 1, 2, 2, 3]
+# 
+# There are 4 ways to break 5
+# 
+# [1, 1, 2, 2, 3, 4]
+# 
+# There are 5 ways to break 6
+# 
+# [1, 1, 2, 2, 3, 4, 5]
+# 
+# There are 6 ways to break 7
+# 
+# [1, 1, 2, 2, 3, 4, 5, 6]
+# 
+# There are 7 ways to break 8
+# 
+# [1, 1, 2, 2, 3, 4, 5, 6, 7]
+# 
+# There are 8 ways to break 9
+# 
+# [1, 1, 2, 2, 3, 4, 5, 6, 7, 8]
+# 
+# There are 11 ways to break 10
+#
+# [1, 1, 2, 2, 3, 4, 5, 6, 7, 8, 11]
+# 
 # With help of math blog....
 # https://www.mathblog.dk/project-euler-31-combinations-english-currency-denominations/
 
 # determines how many combinations exist to break the amount given
 # amount = coin value to break
 def coinSums(amount):
+    # coin values to consider
     coins = [1,2,5,10,20,50,100,200]
     combinations = [0] * amount
-    combinations.append(0)
+    combinations.append(0) # append to make amount+1 indexes or values 0 to amount
+    # initial condition, there are 1 ways to break 0p
     combinations[0] = 1
-    for i in range(0, len(coins)):
-        for j in range(coins[i], amount+1):
-            combinations[j] += combinations[j-coins[i]]
+    # consider each currency seperately
+    for i in coins:
+        # consider breaking 1p, then 2p, then 3p etc.
+        # we only calculate the # of ways to break up 1p, 2p, 3p, once, and use
+        # those values in later calculations
+        for j in range(i, amount+1):
+            combinations[j] += combinations[j-i]
+    print(combinations)
     return combinations[len(combinations)-1]
 
 def coinSums_bruteForce(amount):
