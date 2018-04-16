@@ -90,8 +90,9 @@ def coinSums(amount):
         # those values in later calculations
         for j in range(i, amount+1):
             combinations[j] += combinations[j-i]
-    print(combinations)
-    return combinations[len(combinations)-1]
+
+    return combinations
+    #return combinations[len(combinations)-1]
 
 def coinSums_bruteForce(amount):
     combinations = 0
@@ -104,15 +105,23 @@ def coinSums_bruteForce(amount):
                             for g in range(f, -1, -2):
                                 combinations += 1
     return combinations
+
+def prettyPrint(ways):
+  cnt=0
+  for i in ways:
+    print("There are %d ways to break up %dp" % (i,cnt))
+    cnt +=1
         
 while True:
     # start clock
     start = clock()
 
     coin = int(input("Enter value to break: "))
-    print("\nThere are %d ways to break %d" % (coinSums(coin), coin))
+    ways = coinSums(coin)
+    print("\nThere are %d ways to break %d" % (ways[len(ways) -1], coin))
+    prettyPrint(ways)
 
-    print("\nBrute Force: There are %d ways to break %d" % (coinSums_bruteForce(coin), coin))
+    #print("\nBrute Force: There are %d ways to break %d" % (coinSums_bruteForce(coin), coin))
 
     # stop clock
     end = clock()
