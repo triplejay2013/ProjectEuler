@@ -40,8 +40,6 @@ def isPandigital(num):
     return True
   return False
 
-
-
 while True:
   start = clock()
   print("YES") if isPandigital(15234) else print("NO")
