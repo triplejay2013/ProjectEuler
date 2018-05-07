@@ -1,12 +1,4 @@
 from time import *
-
-def multipleSum(factor1, factor2, limit):
-  total = 0
-  for i in range(1,limit):
-    if i%factor1== 0 or i%factor2 == 0:
-      total+=i
-  return total
-
 print("""
     
 Multiples of 3 and 5
@@ -24,6 +16,11 @@ while True:
   factor2 = int(input("Enter second Factor: "))
   limit = int(input("Enter limit: "))
   start=clock()
-  print("The multiple sum of {} and {} for numbers under {} is {}".format(factor1, factor2, limit,multipleSum(factor1,factor2,limit)))
+  multSet = set()
+  for i in range(limit):
+    if i%factor1 == 0 or i%factor2 == 0:
+        multSet.add(i)
+  multipleSum = sum(multSet)
+  print("The multiple sum of {} and {} for numbers under {} is {}".format(factor1, factor2, limit, multipleSum))
   end = clock()
   print("Your program took {} seconds to run".format(end-start))

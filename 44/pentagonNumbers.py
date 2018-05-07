@@ -14,9 +14,6 @@ from time import *
 def pentagonNum(n):
   return int((n*(3*n - 1))/2)
 
-def isPent(n):
-  
-
 while True:
   limit = int(input("Enter how many pentagonal numbers to generate: "))
   start = clock()

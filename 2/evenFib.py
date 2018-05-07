@@ -18,7 +18,7 @@ print("""
 
   """)
 
-cache = {}
+cache = set()
 #using memoization
 def fib(n):
   try:
