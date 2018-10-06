@@ -9,23 +9,31 @@
 # Find the pair of pentagonal numbers, P(j) and P(k), for which their sum and
 # difference are pentagonal and D = |P(k) − P(j)| is minimised; what is the value of
 # D?
-from time import *
 
-def pentagonNum(n):
-  return int((n*(3*n - 1))/2)
+from time import *
+from math import sqrt
+
+# REF: http://www.divye.in/2012/07/how-do-you-determine-if-number-n-is.html
+# This provides a formula for discovering if a number is pentagonal
+def isPent(n):
+    return sqrt(24*n+1)%6 == 5
 
 while True:
-  limit = int(input("Enter how many pentagonal numbers to generate: "))
-  start = clock()
-  pent = [pentagonNum(i) for i in range(1, limit+1)]
-  print(pent)
-  special = []
-  for i in pent:
-    for j in pent:
-      if j >= i: continue
-      if i+j in pent and i-j in pent:
-        special.append([i,j])
-  print(special)
-
-  end = clock()
-  print("The program took {} seconds to run".format(end-start))
+    n=int(input("Enter num of pents to generate (3000): "))
+    start=clock()
+    pent = [int((n*(3*n-1))/2) for n in range(1,n)] # generate pentagonal numbers
+    D=float("inf") # Keep track of minimum values
+    kmin=0
+    jmin=0
+    for pk in range(1,len(pent)): # start one ahead of pent
+        for pj in range(pk):
+            pentNum=pent[pk]+pent[pj]
+            if isPent(pentNum):
+                tmp = pent[pk] - pent[pj]
+                if isPent(tmp) and tmp < D: 
+                    jmin=pent[pj]
+                    kmin=pent[pk]
+                    D=tmp
+                    print("Found Min val! {}".format(D))
+    print("Minimum value for D is {} for pk={} and pj={}".format(D, kmin, jmin))
+    print("Program took {} seconds to run".format(clock()-start))
