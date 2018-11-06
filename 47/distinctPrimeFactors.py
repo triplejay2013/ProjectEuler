@@ -14,6 +14,7 @@ The first three consecutive numbers to have three distinct prime factors are:
 Find the first four consecutive integers to have four distinct prime factors each. What is the first of these numbers?"""
 
 from math import sqrt
+import pdb
 
 # Returns a list
 # [n, f1, f2,.., fk]
@@ -50,25 +51,31 @@ def factor(n):
 # List of distinct priems
 dprimes=[]
 # number of distinct prime factors to consider
-n_distinct=2
+n_distinct=3
 flag=False
-for i in range(3,100):
+for i in range(3,1000):
     x=factor(i-1) #14,2,7
     y=factor(i)   #15,3,5
-    for j in x: # Loop through factors of i-1
-        if (j not in y) and len(x)-1 == n_distinct and len(y)-1 == n_distinct:
+    #if x[0] == 644: pdb.set_trace()
+    for j in set(x[1:]): # Loop through factors of i-1
+        if (j not in y) and len(set(x))-1 == n_distinct and len(set(y))-1 == n_distinct:
         # if factors of i-1 are not in factors of i, then distinct
         # len() -1 to account for n in 0th location.
             flag = True
-        else: flag = False
+        else: 
+            flag = False
+            break
     if flag:
-        # Skip lists with duplicate factors
-        #if len(set(x)) != len(x): continue
-        #if len(set(y)) != len(y): continue
-        dprimes.append(x)
-        dprimes.append(y)
+        tempx=[x[0]]+list(set(x[1:]))
+        if len(tempx) - 1 == n_distinct: 
+            tempy=[y[0]]+list(set(y[1:]))
+            if len(tempy) - 1 == n_distinct:
+                dprimes.append(tempx)
+                dprimes.append(tempy)
     flag=False
 
-for i in dprimes:
-    print(i)
-            
+for i in range(2,len(dprimes)):
+    if (dprimes[i][0] - dprimes[i-1][0] - dprimes[i-2][0]) == -1*dprimes[i-2][0]:
+        print(dprimes[i])
+        print(dprimes[i-1])
+        print(dprimes[i-2])
