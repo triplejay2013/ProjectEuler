@@ -55,51 +55,79 @@ def is_prime(n, _precision_for_huge_n=16):
 _known_primes = [2, 3]
 _known_primes += [x for x in range(5, 1000, 2) if is_prime(x)]
 
+def sieve(limit):
+    a= [True] * limit
+    a[0] = a[1] = False
 
+    for (i, isprime) in enumerate(a):
+        if isprime:
+            yield i
+            for n in range(i*i, limit, i):
+                a[n] = False
 
 # Recursively fine factors
-# f - number to find factors of
+# c - number to find factors of
 # n - number of factors to find (default 2)
-# m - most recent found factor
-def factor(f,n=2):
-    ret=(f,)
-    if is_prime(f): return ret+(-1,-1)
-    return ret + _factor(f,n)
+def factor(c):
+    ret=(c,)
+    if is_prime(c): return ret+(-1,-1) #if prime, no factors exist
+    return ret + _factor(c)
 
-def _factor(f,n=2,m=1):
-    if n==0: return ()
-    for i in range(m+1,f):
-        if is_prime(i):
-            j=_factor(f,n-1,m) # TODO Start here - implementing factor2() using recursion
-            _try=i*j
-            if _try>f: break
-            if _try==n: return (i,j)
+# c - composite number
+# f - factor
+def _factor(c,f=2): # finds the next factor for c
+    for i in range(f,c): # continue search for distinct factors
+        if is_prime(i) and c%i==0: # if i is a prime factor
+            return (f,)+_factor(c,i+1) # add to tuple
+        f+=1 # else try a different factor
+    return () #once f is greater than c, return empty tuple. Base case
 
-            return _factor(f,n-1,m)+(i,)
-
-def factor2(n):
-    ret=(n,)
-    if is_prime(n): return ret+(-1,-1)
-    for i in range(n):
-        if is_prime(i):
-            for j in range(i+1,n):
-                if is_prime(j):
-                    _try=i*j
-                    if _try>n: break
-                    if _try==n: return ret+(i,j)
-    return ret+(-1,-1)
-
-# n MUST be a 3-tuple
+# n MUST be at least a 2-tuple
+# (p)retty (print)
 def pprint(n):
-    print("{} = {} x {}".format(n[0],n[1],n[2]))
+    if len(n) <= 1: return
+    toPrint=""
+    toPrint += "{} = ".format(n[0])
+    for i in range(1,len(n)):
+        toPrint+="{} x ".format(n[i])
+    
+    toPrint=toPrint[:len(toPrint)-2] # remove trailing 'x '
+    print(toPrint)
+
+# (t)uple (L)ist
+# TODO print out only tuples of interest
+def distinctPrimeFactors(tL):
+    for i in range(1,len(tL)):
+        p=False # (p)rint flag
+        for j in range(len(tL[i])): # look for consecutive distinct factors
+            if tL[i-1][j] in tL[i]: # not distinct prime
+                f=False
+                tL[i-1] = ()
+                break
+            else: 
+                f=True
+        if f:
+            print("\nDISTINCT")
+            for j in tL: # print consecutive distinct factors
+                pprint(j)
+    print("END\n")
+
 
 from time import clock
-l=int(input("Enter limit: "))
-start=clock()
-for i in range(1,l):
-    x=factor(i)
-    print(x)
-    #if x[1] != -1:
-    #    pprint(x)
+while True:
+    l=int(input("Enter limit of factors to generate: "))
+    mi=int(input("Enter minimum factor tuple length: "))
+    start=clock()
+    tL=[] # (t)uple (L)ist
+    for i in range(1,l):
+        c=factor(i)
+        # Add only similar-length tuples
+        # AND add only valid tuples
+        if mi == len(c)-1 and c[1] != -1: 
+            tL.append(c)
 
-print("The program took {} seconds to run".format(clock()-start))
+    for i in tL:
+        print(i)
+    # distinctPrimeFactors(tL) #broken
+
+    print("The program took {} seconds to run".format(clock()-start))
