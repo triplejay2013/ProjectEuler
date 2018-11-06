@@ -13,121 +13,62 @@ The first three consecutive numbers to have three distinct prime factors are:
 
 Find the first four consecutive integers to have four distinct prime factors each. What is the first of these numbers?"""
 
-# Miller-Rabin primality test
-# REF: https://rosettacode.org/wiki/Miller%E2%80%93Rabin_primality_test#Python
-def _try_composite(a, d, n, s):
-    if pow(a, d, n) == 1:
-        return False
-    for i in range(s):
-        if pow(a, 2**i * d, n) == n-1:
-            return False
-    return True # n  is definitely composite
- 
-# Says that 1 is prime.....
-def is_prime(n, _precision_for_huge_n=16):
-    if n in _known_primes or n in (0, 1):
-        return True
-    if any((n % p) == 0 for p in _known_primes):
-        return False
-    d, s = n - 1, 0
-    while not d % 2:
-        d, s = d >> 1, s + 1
-    # Returns exact according to http://primes.utm.edu/prove/prove2_3.html
-    if n < 1373653: 
-        return not any(_try_composite(a, d, n, s) for a in (2, 3))
-    if n < 25326001: 
-        return not any(_try_composite(a, d, n, s) for a in (2, 3, 5))
-    if n < 118670087467: 
-        if n == 3215031751: 
-            return False
-        return not any(_try_composite(a, d, n, s) for a in (2, 3, 5, 7))
-    if n < 2152302898747: 
-        return not any(_try_composite(a, d, n, s) for a in (2, 3, 5, 7, 11))
-    if n < 3474749660383: 
-        return not any(_try_composite(a, d, n, s) for a in (2, 3, 5, 7, 11, 13))
-    if n < 341550071728321: 
-        return not any(_try_composite(a, d, n, s) for a in (2, 3, 5, 7, 11, 13, 17))
-    # otherwise
-    return not any(_try_composite(a, d, n, s) 
-                   for a in _known_primes[:_precision_for_huge_n])
- 
-# Global values
-_known_primes = [2, 3]
-_known_primes += [x for x in range(5, 1000, 2) if is_prime(x)]
+from math import sqrt
 
-def sieve(limit):
-    a= [True] * limit
-    a[0] = a[1] = False
+# Returns a list
+# [n, f1, f2,.., fk]
+# Where n is the number factored
+# and fi is the factor of n
+# REF: https://www.geeksforgeeks.org/print-all-prime-factors-of-a-given-number/
+def factor(n):
+    # make positive
+    factors = [n]
+    if n<0: 
+        n*=-1
+        factors.append(int(-1))
+    # No prime factors will be considered for 1,0
+    if n<=1: return factors
+    #Print the number of 2's that divide n
+    while n%2==0:
+        #print(2)
+        factors.append(int(2))
+        n/=2
 
-    for (i, isprime) in enumerate(a):
-        if isprime:
-            yield i
-            for n in range(i*i, limit, i):
-                a[n] = False
+    # N must be odd at this point, so we can skip an element
+    for i in range(3,int(sqrt(n)+1),2):
+        while n%i == 0:
+            #print(i)
+            factors.append(int(i))
+            n/=i
+    # This condition is to handle the case when n is a 
+    # prime number greater than 2
+    if n>2:
+        #print(n)
+        factors.append(int(n))
+    return factors
 
-# Recursively fine factors
-# c - number to find factors of
-# n - number of factors to find (default 2)
-def factor(c):
-    ret=(c,)
-    if is_prime(c): return ret+(-1,-1) #if prime, no factors exist
-    return ret + _factor(c)
+# List of distinct priems
+dprimes=[]
+# number of distinct prime factors to consider
+n_distinct=2
+flag=False
+for i in range(3,100):
+    x=factor(i-1) #14,2,7
+    y=factor(i)   #15,3,5
+    for j in x: # Loop through factors of i-1
+        if (j not in y) and len(x)-1 == n_distinct and len(y)-1 == n_distinct:
+        # if factors of i-1 are not in factors of i, then distinct
+        # len() -1 to account for n in 0th location.
+            flag = True
+        else: flag = False
+    if flag:
+        # Skip lists with duplicate factors
+        #if len(set(x)) != len(x): continue
+        #if len(set(y)) != len(y): continue
+        dprimes.append(x)
+        dprimes.append(y)
+    flag=False
 
-# c - composite number
-# f - factor
-def _factor(c,f=2): # finds the next factor for c
-    for i in range(f,c): # continue search for distinct factors
-        if is_prime(i) and c%i==0: # if i is a prime factor
-            return (f,)+_factor(c,i+1) # add to tuple
-        f+=1 # else try a different factor
-    return () #once f is greater than c, return empty tuple. Base case
-
-# n MUST be at least a 2-tuple
-# (p)retty (print)
-def pprint(n):
-    if len(n) <= 1: return
-    toPrint=""
-    toPrint += "{} = ".format(n[0])
-    for i in range(1,len(n)):
-        toPrint+="{} x ".format(n[i])
-    
-    toPrint=toPrint[:len(toPrint)-2] # remove trailing 'x '
-    print(toPrint)
-
-# (t)uple (L)ist
-# TODO print out only tuples of interest
-def distinctPrimeFactors(tL):
-    for i in range(1,len(tL)):
-        p=False # (p)rint flag
-        for j in range(len(tL[i])): # look for consecutive distinct factors
-            if tL[i-1][j] in tL[i]: # not distinct prime
-                f=False
-                tL[i-1] = ()
-                break
-            else: 
-                f=True
-        if f:
-            print("\nDISTINCT")
-            for j in tL: # print consecutive distinct factors
-                pprint(j)
-    print("END\n")
-
-
-from time import clock
-while True:
-    l=int(input("Enter limit of factors to generate: "))
-    mi=int(input("Enter minimum factor tuple length: "))
-    start=clock()
-    tL=[] # (t)uple (L)ist
-    for i in range(1,l):
-        c=factor(i)
-        # Add only similar-length tuples
-        # AND add only valid tuples
-        if mi == len(c)-1 and c[1] != -1: 
-            tL.append(c)
-
-    for i in tL:
-        print(i)
-    # distinctPrimeFactors(tL) #broken
-
-    print("The program took {} seconds to run".format(clock()-start))
+for i in dprimes:
+    print(i)
+            
