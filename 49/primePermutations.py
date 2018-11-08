@@ -10,6 +10,7 @@ What 12-digit number do you form by concatenating the three terms in this
 sequence?"""
 
 from math import sqrt
+import pdb
 import itertools
 
 # (1) Generate four-digit primes
@@ -44,17 +45,30 @@ def digitStrip(n,r):
 
 x=primes_sieve(9999)
 x=digitStrip(x,4)
+
 # (2) Iterate through primes, and determine if any permutations exist
 #permutations = itertools.permutations()
-for i in x:
-    permutations = itertools.permutations(str(i))
+
+# returns a list of permutations of number n
+def permute(n):
+    global x
+    permutations = itertools.permutations(str(n))
     p=[]
     for j in permutations:
-        p.append(int("".join(j)))
-    if any(j in p for j in x):
-        print("yes")
-    for k in p:
-        print(k)
-    input()
+        i=int("".join(j))
+        if i in x:
+            p.append(i)
+    return sorted(p)
+
+# TODO: Need to meet third condition. All primes have same difference
+def diffCheck(n):
+    # Double for loop over list of primes
+    # x = n[1] - n[0]
+    # if n[i] + x in n, something
+
+for i in x:
+    j=permute(i)
+    #j=diffCheck(j)
+    print(j)
 
 # (3) Concatenate primes (in increasing order) to form 12-digit number
