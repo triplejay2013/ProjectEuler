@@ -49,16 +49,21 @@ def factor(n):
     return list(set(factors[1:])) # returns distinct factors
     # returns [f1,f2,f3,...,fk]
 
-n_distinct = 4
+n_distinct = int(input("Number of distinct factors to consider: "))
+if n_distinct < 2: n_distinct = 2
 flag=False
-for i in range(15,int(input("Enter Limit: "))):
-    prev=factor(i-1) #14
-    curr=factor(i)   #15
+dprimes = []
+for i in range(14,int(input("Enter Limit: "))):
+    prev=factor(i) #14
+    curr=factor(i+1)   #15
     for j in prev:
         if j in curr:
             flag=False
             break
         else: flag=True
     if flag and (len(prev)==len(curr)==n_distinct):
-        print("{} and {} have {} distinct primes".format(i-1,i,n_distinct))
+        dprimes.append(i)
+        print("{} and {} have {} distinct primes".format(i,i+1,n_distinct))
         print("\tprev:{}\tcurr:{}".format(prev,curr))
+
+print(dprimes)
