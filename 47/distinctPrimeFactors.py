@@ -21,6 +21,7 @@ import pdb
 # Where n is the number factored
 # and fi is the factor of n
 # REF: https://www.geeksforgeeks.org/print-all-prime-factors-of-a-given-number/
+#returns DISTINCT factors of n
 def factor(n):
     # make positive
     factors = [n]
@@ -49,21 +50,27 @@ def factor(n):
     return list(set(factors[1:])) # returns distinct factors
     # returns [f1,f2,f3,...,fk]
 
-n_distinct = int(input("Number of distinct factors to consider: "))
-if n_distinct < 2: n_distinct = 2
-flag=False
-dprimes = []
-for i in range(14,int(input("Enter Limit: "))):
-    prev=factor(i) #14
-    curr=factor(i+1)   #15
-    for j in prev:
-        if j in curr:
-            flag=False
-            break
-        else: flag=True
-    if flag and (len(prev)==len(curr)==n_distinct):
-        dprimes.append(i)
-        print("{} and {} have {} distinct primes".format(i,i+1,n_distinct))
-        print("\tprev:{}\tcurr:{}".format(prev,curr))
+# Given a number n, calculate n+1, n+2,
+# and add to list given that n,n+1 and n+1,n+2 have distinct primes
+def consecutiveDistinctPrimes(n0):
+    #pdb.set_trace()
+    result = [n0]
+    n0f=factor(n0)
+    n1=n0+1
+    n1f=factor(n1)
+    # REF: https://thispointer.com/python-check-if-a-list-contains-all-the-elements-of-another-list/
+    # Checks if any contents match between the two lists
+    # Considers only numbers with the same number of factors
+    if not any(i in n0f for i in n1f) and len(n0f) == len(n1f):
+        return result + consecutiveDistinctPrimes(n1)
+    return result
 
-print(dprimes)
+#print(consecutiveDistinctPrimes(14))
+#print(consecutiveDistinctPrimes(644))
+print("Try numbers less than 150,000 for Project Euler solution")
+n_distinct = int(input("Enter Number of factors to consider (>2): "))
+for i in range(10,int(input("Enter Limit(>10): "))):
+    if len(factor(i)) == n_distinct:
+        x=consecutiveDistinctPrimes(i)
+        if len(x) == n_distinct:
+            print(x)
