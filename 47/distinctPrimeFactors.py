@@ -46,36 +46,19 @@ def factor(n):
     if n>2:
         #print(n)
         factors.append(int(n))
-    return factors
+    return list(set(factors[1:])) # returns distinct factors
+    # returns [f1,f2,f3,...,fk]
 
-# List of distinct priems
-dprimes=[]
-# number of distinct prime factors to consider
-n_distinct=3
+n_distinct = 4
 flag=False
-for i in range(3,1000):
-    x=factor(i-1) #14,2,7
-    y=factor(i)   #15,3,5
-    #if x[0] == 644: pdb.set_trace()
-    for j in set(x[1:]): # Loop through factors of i-1
-        if (j not in y) and len(set(x))-1 == n_distinct and len(set(y))-1 == n_distinct:
-        # if factors of i-1 are not in factors of i, then distinct
-        # len() -1 to account for n in 0th location.
-            flag = True
-        else: 
-            flag = False
+for i in range(15,int(input("Enter Limit: "))):
+    prev=factor(i-1) #14
+    curr=factor(i)   #15
+    for j in prev:
+        if j in curr:
+            flag=False
             break
-    if flag:
-        tempx=[x[0]]+list(set(x[1:]))# Remove duplicate factors
-        if len(tempx) - 1 == n_distinct: 
-            tempy=[y[0]]+list(set(y[1:]))# Remove duplicate factors
-            if len(tempy) - 1 == n_distinct:
-                dprimes.append(tempx)
-                dprimes.append(tempy)
-    flag=False
-
-for i in range(2,len(dprimes)):
-    #if (dprimes[i][0] - dprimes[i-1][0] - dprimes[i-2][0]) == -1*dprimes[i-2][0]:
-    print(dprimes[i])
-    print(dprimes[i-1])
-    print(dprimes[i-2])
+        else: flag=True
+    if flag and (len(prev)==len(curr)==n_distinct):
+        print("{} and {} have {} distinct primes".format(i-1,i,n_distinct))
+        print("\tprev:{}\tcurr:{}".format(prev,curr))
