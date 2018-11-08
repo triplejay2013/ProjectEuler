@@ -66,16 +66,16 @@ for i in range(3,1000):
             flag = False
             break
     if flag:
-        tempx=[x[0]]+list(set(x[1:]))
+        tempx=[x[0]]+list(set(x[1:]))# Remove duplicate factors
         if len(tempx) - 1 == n_distinct: 
-            tempy=[y[0]]+list(set(y[1:]))
+            tempy=[y[0]]+list(set(y[1:]))# Remove duplicate factors
             if len(tempy) - 1 == n_distinct:
                 dprimes.append(tempx)
                 dprimes.append(tempy)
     flag=False
 
 for i in range(2,len(dprimes)):
-    if (dprimes[i][0] - dprimes[i-1][0] - dprimes[i-2][0]) == -1*dprimes[i-2][0]:
-        print(dprimes[i])
-        print(dprimes[i-1])
-        print(dprimes[i-2])
+    #if (dprimes[i][0] - dprimes[i-1][0] - dprimes[i-2][0]) == -1*dprimes[i-2][0]:
+    print(dprimes[i])
+    print(dprimes[i-1])
+    print(dprimes[i-2])
